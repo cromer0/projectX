@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cruces entre Equinos: Caballo, Burro y Cebra</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f0e8 0%, #e8dcc8 100%);
+      color: #3a3a3a;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #5b3a1a 0%, #8b5e3c 100%);
+      color: #fff;
+      text-align: center;
+      padding: 2.5rem 1rem;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .intro {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .species-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .species-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .species-card .emoji { font-size: 3.5rem; }
+    .species-card h3 { margin: 0.5rem 0 0.3rem; font-size: 1.3rem; }
+    .species-card .sci { font-style: italic; color: #777; font-size: 0.9rem; }
+    .species-card .chr { margin-top: 0.5rem; font-size: 0.95rem; }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin: 2.5rem 0 1.5rem;
+      color: #5b3a1a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .card:hover { transform: translateY(-4px); }
+
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-body {
+      padding: 1.2rem 1.5rem;
+    }
+
+    .card-body p { margin-bottom: 0.6rem; }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .tag-fertile { background: #d4edda; color: #155724; }
+    .tag-sterile { background: #f8d7da; color: #721c24; }
+    .tag-rare { background: #fff3cd; color: #856404; }
+
+    .parents {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 0.8rem;
+      border-left: 3px solid #ccc;
+      padding-left: 0.8rem;
+    }
+
+    /* Color palette for card headers */
+    .c1 { background: linear-gradient(135deg, #6b4226, #a0522d); }
+    .c2 { background: linear-gradient(135deg, #4a6741, #6b8f5e); }
+    .c3 { background: linear-gradient(135deg, #4a5568, #718096); }
+    .c4 { background: linear-gradient(135deg, #9b4dca, #c084fc); }
+    .c5 { background: linear-gradient(135deg, #c05621, #ed8936); }
+    .c6 { background: linear-gradient(135deg, #2b6cb0, #4299e1); }
+
+    table {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    th, td {
+      padding: 0.9rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #5b3a1a;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) { background: #faf7f2; }
+
+    .note {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      padding: 1.2rem 1.5rem;
+      background: #fffbe6;
+      border-left: 4px solid #d4a017;
+      border-radius: 0 8px 8px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Cruces entre Equinos</h1>
+  <p>Caballo, Burro y Cebra: todos los h&iacute;bridos posibles</p>
+</header>
+
+<section class="intro">
+  <p>Los caballos (<em>Equus caballus</em>), burros (<em>Equus asinus</em>) y cebras
+    (varias especies de <em>Equus</em>) pertenecen al mismo g&eacute;nero y pueden cruzarse
+    entre s&iacute;, produciendo h&iacute;bridos con caracter&iacute;sticas &uacute;nicas.
+    La mayor&iacute;a de estos h&iacute;bridos son <strong>est&eacute;riles</strong> debido a
+    las diferencias en el n&uacute;mero de cromosomas de los progenitores.</p>
+</section>
+
+<!-- Especies progenitoras -->
+<div class="species-bar">
+  <div class="species-card">
+    <div class="emoji">&#x1F40E;</div>
+    <h3>Caballo</h3>
+    <p class="sci">Equus caballus</p>
+    <p class="chr">Cromosomas: <strong>2n = 64</strong></p>
+  </div>
+  <div class="species-card">
+    <div class="emoji">&#x1F434;</div>
+    <h3>Burro / Asno</h3>
+    <p class="sci">Equus asinus</p>
+    <p class="chr">Cromosomas: <strong>2n = 62</strong></p>
+  </div>
+  <div class="species-card">
+    <div class="emoji">&#x1F993;</div>
+    <h3>Cebra</h3>
+    <p class="sci">Equus zebra / quagga / grevyi</p>
+    <p class="chr">Cromosomas: <strong>2n = 32&ndash;46</strong> (seg&uacute;n especie)</p>
+  </div>
+</div>
+
+<h2>Los 6 h&iacute;bridos posibles</h2>
+
+<div class="grid">
+
+  <!-- 1. Mula -->
+  <div class="card">
+    <div class="card-header c1">&#x1F40E; &times; &#x1F434; &nbsp; Mula</div>
+    <div class="card-body">
+      <div class="parents">&male; Burro (jack) &times; &female; Yegua (mare)</div>
+      <span class="tag tag-sterile">Generalmente est&eacute;ril</span>
+      <span class="tag">2n = 63</span>
+      <p>El h&iacute;brido equino m&aacute;s com&uacute;n y conocido del mundo. Las mulas
+        son apreciadas por su <strong>resistencia, fortaleza y temperamento estable</strong>.
+        Combinan la fuerza del caballo con la resistencia del burro.</p>
+      <p>Son casi siempre est&eacute;riles, aunque se han documentado casos extremadamente
+        raros de mulas f&eacute;rtiles.</p>
+    </div>
+  </div>
+
+  <!-- 2. Burdégano -->
+  <div class="card">
+    <div class="card-header c2">&#x1F434; &times; &#x1F40E; &nbsp; Burd&eacute;gano (Hinny)</div>
+    <div class="card-body">
+      <div class="parents">&male; Caballo (stallion) &times; &female; Burra (jenny)</div>
+      <span class="tag tag-sterile">Est&eacute;ril</span>
+      <span class="tag tag-rare">Menos com&uacute;n</span>
+      <span class="tag">2n = 63</span>
+      <p>El cruce inverso a la mula. Es m&aacute;s dif&iacute;cil de obtener debido a
+        diferencias en el tama&ntilde;o y la compatibilidad reproductiva. Suelen ser
+        <strong>m&aacute;s peque&ntilde;os</strong> que las mulas y se parecen m&aacute;s
+        al burro en apariencia.</p>
+      <p>Su temperamento tiende a ser m&aacute;s parecido al del caballo.</p>
+    </div>
+  </div>
+
+  <!-- 3. Zebrallo / Zorse -->
+  <div class="card">
+    <div class="card-header c3">&#x1F993; &times; &#x1F40E; &nbsp; Zebrallo (Zorse)</div>
+    <div class="card-body">
+      <div class="parents">&male; Cebra &times; &female; Yegua</div>
+      <span class="tag tag-sterile">Est&eacute;ril</span>
+      <span class="tag tag-rare">Raro</span>
+      <p>Tambi&eacute;n llamado <strong>zorse</strong>, <strong>zebrula</strong> o
+        <strong>golden zebra</strong>. Tiene cuerpo de caballo con
+        <strong>rayas parciales</strong> de cebra, usualmente m&aacute;s visibles en
+        las patas y la grupa.</p>
+      <p>Conserva el tama&ntilde;o del caballo pero hereda el instinto salvaje
+        de la cebra, lo que dificulta su domesticaci&oacute;n.</p>
+    </div>
+  </div>
+
+  <!-- 4. Hebra / Horsebra -->
+  <div class="card">
+    <div class="card-header c4">&#x1F40E; &times; &#x1F993; &nbsp; Hebra (Horsebra)</div>
+    <div class="card-body">
+      <div class="parents">&male; Caballo &times; &female; Cebra</div>
+      <span class="tag tag-sterile">Est&eacute;ril</span>
+      <span class="tag tag-rare">Muy raro</span>
+      <p>El cruce inverso al zebrallo. Es <strong>extremadamente infrecuente</strong>
+        porque las cebras hembra en cautiverio rara vez aceptan la monta de un
+        caballo.</p>
+      <p>Cuando se logra, el resultado es similar al zorse pero puede variar
+        en tama&ntilde;o y patr&oacute;n de rayas.</p>
+    </div>
+  </div>
+
+  <!-- 5. Cebramula / Zedonk -->
+  <div class="card">
+    <div class="card-header c5">&#x1F993; &times; &#x1F434; &nbsp; Cebramula (Zedonk / Zonkey)</div>
+    <div class="card-body">
+      <div class="parents">&male; Cebra &times; &female; Burra</div>
+      <span class="tag tag-sterile">Est&eacute;ril</span>
+      <span class="tag tag-rare">Raro</span>
+      <p>Tambi&eacute;n conocido como <strong>zonkey</strong>, <strong>zedonk</strong>,
+        <strong>zebronkey</strong> o <strong>zebrass</strong>. Tiene cuerpo compacto
+        de burro con <strong>rayas llamativas</strong> en las extremidades.</p>
+      <p>Suelen ser resistentes y robustos, combinando la dureza del burro con
+        las caracter&iacute;sticas de la cebra.</p>
+    </div>
+  </div>
+
+  <!-- 6. Cebra-burdégano -->
+  <div class="card">
+    <div class="card-header c6">&#x1F434; &times; &#x1F993; &nbsp; Zebr&eacute;gano (Donkra)</div>
+    <div class="card-body">
+      <div class="parents">&male; Burro &times; &female; Cebra</div>
+      <span class="tag tag-sterile">Est&eacute;ril</span>
+      <span class="tag tag-rare">Muy raro</span>
+      <p>El cruce inverso al zedonk. Tambi&eacute;n llamado <strong>donkra</strong>
+        o <strong>zebrinny</strong>. Es dif&iacute;cil de obtener porque las cebras
+        hembra raramente se aparean con burros.</p>
+      <p>Cuando ocurre, el h&iacute;brido muestra rayas m&aacute;s prominentes que
+        el zedonk y un tama&ntilde;o intermedio.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Tabla resumen -->
+<h2>Tabla resumen</h2>
+
+<div style="padding: 0 1.5rem; overflow-x: auto;">
+  <table>
+    <thead>
+      <tr>
+        <th>H&iacute;brido</th>
+        <th>Padre (&male;)</th>
+        <th>Madre (&female;)</th>
+        <th>Fertilidad</th>
+        <th>Frecuencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mula</strong></td>
+        <td>Burro</td>
+        <td>Yegua</td>
+        <td>Est&eacute;ril*</td>
+        <td>Muy com&uacute;n</td>
+      </tr>
+      <tr>
+        <td><strong>Burd&eacute;gano</strong></td>
+        <td>Caballo</td>
+        <td>Burra</td>
+        <td>Est&eacute;ril</td>
+        <td>Poco com&uacute;n</td>
+      </tr>
+      <tr>
+        <td><strong>Zebrallo</strong> (Zorse)</td>
+        <td>Cebra</td>
+        <td>Yegua</td>
+        <td>Est&eacute;ril</td>
+        <td>Raro</td>
+      </tr>
+      <tr>
+        <td><strong>Hebra</strong> (Horsebra)</td>
+        <td>Caballo</td>
+        <td>Cebra</td>
+        <td>Est&eacute;ril</td>
+        <td>Muy raro</td>
+      </tr>
+      <tr>
+        <td><strong>Cebramula</strong> (Zedonk)</td>
+        <td>Cebra</td>
+        <td>Burra</td>
+        <td>Est&eacute;ril</td>
+        <td>Raro</td>
+      </tr>
+      <tr>
+        <td><strong>Zebr&eacute;gano</strong> (Donkra)</td>
+        <td>Burro</td>
+        <td>Cebra</td>
+        <td>Est&eacute;ril</td>
+        <td>Muy raro</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="note">
+  <strong>Nota:</strong> Todos estos h&iacute;bridos son generalmente est&eacute;riles
+  debido a que los progenitores tienen diferente n&uacute;mero de cromosomas, lo que
+  impide la correcta formaci&oacute;n de gametos durante la meiosis. Se han documentado
+  casos excepcionales de mulas f&eacute;rtiles, pero son extremadamente raros
+  (menos de 60 casos confirmados en la historia).
+</div>
+
+<div class="note">
+  <strong>Terminolog&iacute;a general:</strong> Los h&iacute;bridos de cebra con
+  cualquier otro equino se denominan gen&eacute;ricamente <strong>zebroides</strong>.
+  El t&eacute;rmino espec&iacute;fico depende de cu&aacute;l especie es el padre y
+  cu&aacute;l la madre, ya que la herencia gen&eacute;tica y mitocondrial difiere
+  seg&uacute;n la direcci&oacute;n del cruce.
+</div>
+
+<footer>
+  <p>P&aacute;gina informativa sobre h&iacute;bridos de equinos &mdash; 2026</p>
+</footer>
+
+</body>
+</html>
